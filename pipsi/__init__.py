@@ -357,8 +357,10 @@ class Repo(object):
             if editable:
                 args.append('--editable')
 
+            env = dict(os.environ, PIP_USER='0')
+
             debugp('Popen: {}'.format(args + install_args))
-            if Popen(args + install_args).wait() != 0:
+            if Popen(args + install_args, env=env).wait() != 0:
                 click.echo('Failed to pip install.  Aborting.')
                 return _cleanup()
         except Exception:
